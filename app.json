@@ -3,12 +3,7 @@
     "name": "covid-19",
     "slug": "covid-19",
     "android": {
-      "package": "com.covid19",
-      "config": {
-        "googleMaps": {
-          "apiKey": "AIzaSyBSmyTU5iLuXo0JkXg-bs-e0xg_E1U2S_Q"
-        }
-      }
+      "package": "com.covid19"
     },
     "version": "1.0.0",
     "orientation": "portrait",
