@@ -1,33 +1,46 @@
 import React, { useState, useEffect } from 'react';
-import { View, Alert } from 'react-native';
+import { View, Text, Alert } from 'react-native';
 
-import MapView from 'react-native-maps';
+import MapView, { Region, Marker, Callout } from 'react-native-maps';
 import * as Location from 'expo-location';
+
+import api from '../services/api';
 
 import styles from './styles';
 
-const Map: React.FC = () => {
-  const [location, setLocation] = useState<Location.LocationData>();
-
-  const handleCurrentPosition = async () => {
-    let { status } = await Location.requestPermissionsAsync();
-    if (status !== 'granted') {
-      Alert.alert('Permission to access location was denied');
+interface ICases {
+  data: [
+    {
+      uid: number;
+      uf: string;
+      state: string;
+      cases: number;
+      deaths: number;
+      suspects: number;
+      refuses: number;
+      datetime: string;
     }
+  ];
+}
 
-    let location = await Location.getCurrentPositionAsync({});
-    setLocation(location);
+const Home: React.FC = () => {
+  const [cases, setCases] = useState<ICases>();
+
+  const loadCases = async () => {
+    const response = await api.get<ICases>('/');
+
+    setCases(response.data);
   };
 
   useEffect(() => {
-    handleCurrentPosition();
+    loadCases();
   });
 
   return (
     <View style={styles.container}>
-      <MapView style={styles.mapView} />
+      <MapView style={styles.mapView}></MapView>
     </View>
   );
 };
 
-export default Map;
+export default Home;
